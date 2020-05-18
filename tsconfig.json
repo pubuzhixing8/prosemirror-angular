@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "prosemirror-angular": [
+        "dist/prosemirror-angular/prosemirror-angular",
+        "dist/prosemirror-angular"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
