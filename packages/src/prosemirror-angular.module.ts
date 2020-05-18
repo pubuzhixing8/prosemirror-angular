@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ProsemirrorAngularComponent } from './prosemirror-angular.component';
+import { ProsemirrorAngularComponent } from './editor/prosemirror-angular.component';
 
 
 
