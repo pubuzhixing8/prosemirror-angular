@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ProsemirrorAngularModule } from '../../packages/src/public-api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { OptInColumnResizeDemoModule } from './opt-in/opt-in-column-resize-demo-module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ProsemirrorAngularModule
+    ProsemirrorAngularModule,
+    OptInColumnResizeDemoModule
   ],
   providers: [],
   bootstrap: [AppComponent, ]
