@@ -1,0 +1,12 @@
+.nav-icon {
+    font-size: 1rem;
+    color: #666;
+    border-radius: .25rem;
+    padding: .282rem .438rem;
+    cursor: pointer;
+    &:hover,
+    &.active {
+        color: #348fe4;
+        background-color: rgba($color: #348fe4, $alpha: 0.1);
+    }
+}

@@ -1,0 +1,25 @@
+<i
+  nz-icon
+  [nzType]="'bold'"
+  [nzTheme]="'outline'"
+  [ngClass]="{ active: isActive(MarkTypes.bold) }"
+  class="nav-icon"
+  (mousedown)="mousedown($event, MarkTypes.bold)"
+></i>
+<i
+  nz-icon
+  [nzType]="'italic'"
+  [nzTheme]="'outline'"
+  [ngClass]="{ active: isActive(MarkTypes.italic) }"
+  class="nav-icon"
+  (mousedown)="mousedown($event, MarkTypes.italic)"
+></i>
+<i
+  nz-icon
+  [ngClass]="{ active: isActive(MarkTypes.code) }"
+  class="nav-icon"
+  (mousedown)="mousedown($event, MarkTypes.code)"
+>
+  <svg style="width: 0.875em;"><use xlink:href="http://localhost:8200/#pm-icon--1d0983fe"></use></svg>
+</i>
+

@@ -1,6 +1,8 @@
 /* Add space around the hr to make clicking it easier */
 @import "prosemirror-view/style/prosemirror.css";
 @import "prosemirror-menu/style/menu.css";
+@import 'ng-zorro-antd/ng-zorro-antd.min.css';
+@import '../components/toolbar/toolbar.component.scss';
 
 .ProseMirror-example-setup-style hr {
   padding: 2px 10px;
@@ -118,4 +120,8 @@
 
 .ProseMirror p {
   margin-bottom: 1em;
+}
+
+.select-mode {
+  width: 200px;
 }
