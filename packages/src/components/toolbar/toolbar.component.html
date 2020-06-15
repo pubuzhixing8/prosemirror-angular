@@ -22,4 +22,11 @@
 >
   <svg style="width: 0.875em;"><use xlink:href="http://localhost:8200/#pm-icon--1d0983fe"></use></svg>
 </i>
-
+<i
+  nz-icon
+  [nzType]="'link'"
+  [nzTheme]="'outline'"
+  [ngClass]="{ active: isActive(InlineTypes.link) }"
+  class="nav-icon"
+  (mousedown)="mousedownLink($event)"
+></i>

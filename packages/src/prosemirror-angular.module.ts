@@ -5,10 +5,14 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { PmToolbar } from './components/toolbar/toolbar.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { PmLinkEdit } from './components/link/link-edit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [ProsemirrorAngularComponent, PmToolbar],
+  declarations: [ProsemirrorAngularComponent, PmLinkEdit, PmToolbar],
   imports: [
+    FormsModule,
+    ReactiveFormsModule ,
     CommonModule,
     BrowserModule,
     NgZorroAntdModule,

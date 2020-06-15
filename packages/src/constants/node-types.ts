@@ -7,3 +7,7 @@ export enum MarkTypes {
     color = 'color',
     bgColor = 'bg-color'
 }
+
+export enum InlineTypes {
+    link = 'link'
+}
