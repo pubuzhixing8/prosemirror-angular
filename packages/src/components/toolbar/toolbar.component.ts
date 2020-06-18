@@ -32,7 +32,6 @@ export class PmToolbar {
 
       this.openLinkEdit();
     }
-    
   }
 
   openLinkEdit(): void {

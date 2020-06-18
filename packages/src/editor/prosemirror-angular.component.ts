@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Schema, DOMParser } from 'prosemirror-model';
@@ -14,6 +14,10 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
   styles: [],
 })
 export class ProsemirrorAngularComponent implements OnInit {
+
+  @Output()
+  pmChange: EventEmitter<JSON> = new EventEmitter();
+
   constructor(
     @Inject(NZ_ICONS)
     private icons: IconDefinition[],
@@ -36,6 +40,15 @@ export class ProsemirrorAngularComponent implements OnInit {
         ),
         plugins: exampleSetup({ schema: mySchema }),
       }),
+      dispatchTransaction: transaction => {
+        const { state, transactions } = (window as any).view.state.applyTransaction(transaction);
+
+        (window as any).view.updateState(state);
+
+        if (transactions.some(tr => tr.docChanged)) {
+          this.pmChange.emit(state.doc.toJSON());
+        }
+      },
     });
   }
 }
