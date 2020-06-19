@@ -11,3 +11,7 @@ export enum MarkTypes {
 export enum InlineTypes {
     link = 'link'
 }
+
+export enum BlockTypes {
+    horizontal_rule = 'horizontal_rule'
+}

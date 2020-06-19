@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { toggleMark } from "prosemirror-commands"
-import { MarkTypes, InlineTypes } from '../../constants/node-types';
+import { MarkTypes, InlineTypes, BlockTypes } from '../../constants/node-types';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { PmLinkEdit } from '../link/link-edit.component';
 
@@ -34,6 +34,14 @@ export class PmToolbar {
     }
   }
 
+  mousedownHr(event: MouseEvent) {
+    event.preventDefault();
+    const view = (window as any).view;
+    const state = view.state;
+    let hr = state.config.schema.nodes.horizontal_rule;
+    view.dispatch(state.tr.replaceSelectionWith(hr.create()))
+  }
+
   openLinkEdit(): void {
     this.modalService.create({
       nzTitle: '编辑链接',
@@ -49,6 +57,7 @@ export class PmToolbar {
 
   MarkTypes = MarkTypes;
   InlineTypes = InlineTypes;
+  BlockTypes = BlockTypes;
 }
 
 function markActive(state, typeKey) {
