@@ -1,4 +1,13 @@
-import { Component, OnInit, Inject, TemplateRef, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  TemplateRef,
+  ViewChild,
+  ElementRef,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Schema, DOMParser } from 'prosemirror-model';
@@ -7,6 +16,9 @@ import { addListNodes } from 'prosemirror-schema-list';
 import { exampleSetup } from '../core/index';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { addTagNodes, addMentionNodes } from '../plugins/mention';
+import { todoItemSpec, todoListSpec } from '../plugins/todo/nodes';
+import { handleClickOn } from '../plugins/todo';
 
 @Component({
   selector: 'pm-editor',
@@ -14,7 +26,6 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
   styles: [],
 })
 export class ProsemirrorAngularComponent implements OnInit {
-
   @Output()
   pmChange: EventEmitter<JSON> = new EventEmitter();
 
@@ -22,14 +33,20 @@ export class ProsemirrorAngularComponent implements OnInit {
     @Inject(NZ_ICONS)
     private icons: IconDefinition[],
     private elementRef: ElementRef
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     // Mix the nodes from prosemirror-schema-list into the basic schema to
     // create a schema with list support.
     const mySchema = new Schema({
-      nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+      nodes: addTagNodes(
+        addMentionNodes(
+          addListNodes(schema.spec.nodes, 'paragraph block*', 'block').append({
+            todo_item: todoItemSpec,
+            todo_list: todoListSpec,
+          })
+        )
+      ),
       marks: schema.spec.marks,
     });
 
@@ -40,15 +57,19 @@ export class ProsemirrorAngularComponent implements OnInit {
         ),
         plugins: exampleSetup({ schema: mySchema }),
       }),
-      dispatchTransaction: transaction => {
-        const { state, transactions } = (window as any).view.state.applyTransaction(transaction);
+      dispatchTransaction: (transaction) => {
+        const {
+          state,
+          transactions,
+        } = (window as any).view.state.applyTransaction(transaction);
 
         (window as any).view.updateState(state);
 
-        if (transactions.some(tr => tr.docChanged)) {
+        if (transactions.some((tr) => tr.docChanged)) {
           this.pmChange.emit(state.doc.toJSON());
         }
       },
+      handleClickOn
     });
   }
 }

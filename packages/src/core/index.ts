@@ -1,17 +1,54 @@
-import {keymap} from "prosemirror-keymap"
-import {history} from "prosemirror-history"
-import {baseKeymap} from "prosemirror-commands"
-import {Plugin} from "prosemirror-state"
-import {dropCursor} from "prosemirror-dropcursor"
-import {gapCursor} from "prosemirror-gapcursor"
-import {menuBar} from "prosemirror-menu"
+import { keymap } from 'prosemirror-keymap';
+import { history } from 'prosemirror-history';
+import { baseKeymap } from 'prosemirror-commands';
+import { Plugin } from 'prosemirror-state';
+import { dropCursor } from 'prosemirror-dropcursor';
+import { gapCursor } from 'prosemirror-gapcursor';
+import { menuBar } from 'prosemirror-menu';
 
-import {buildMenuItems} from "./menu"
-import {buildKeymap} from "./keymap"
-import {buildInputRules} from "./inputrules"
+import { buildMenuItems } from './menu';
+import { buildKeymap } from './keymap';
+import { buildInputRules } from './inputrules';
+import { getMentionsPlugin } from '../plugins/mention/mention-plugin';
 
-export {buildMenuItems, buildKeymap, buildInputRules}
+export { buildMenuItems, buildKeymap, buildInputRules };
+var getMentionSuggestionsHTML = (items) =>
+  '<div class="suggestion-item-list">' +
+  items
+    .map((i) => '<div class="suggestion-item">' + i.name + '</div>')
+    .join('') +
+  '</div>';
 
+var getTagSuggestionsHTML = (items) =>
+  '<div class="suggestion-item-list">' +
+  items
+    .map((i) => '<div class="suggestion-item">' + i.tag + '</div>')
+    .join('') +
+  '</div>';
+
+var mentionPlugin = getMentionsPlugin({
+  getSuggestions: (type, text, done) => {
+    setTimeout(() => {
+      if (type === 'mention') {
+        // pass dummy mention suggestions
+        done([
+          { name: 'John Doe', id: '101', email: 'joe@gmail.com' },
+          { name: 'Joe Lewis', id: '102', email: 'lewis@gmail.com' },
+        ]);
+      } else {
+        // pass dummy tag suggestions
+        done([{ tag: 'WikiLeaks' }, { tag: 'NetNeutrality' }]);
+      }
+    }, 0);
+  },
+  getSuggestionsHTML: (items, type) => {
+    if (type === 'mention') {
+      return getMentionSuggestionsHTML(items);
+    } else if (type === 'tag') {
+      return getTagSuggestionsHTML(items);
+    }
+  },
+});
 // !! This module exports helper functions for deriving a set of basic
 // menu items, input rules, or key bindings from a schema. These
 // values need to know about the schema for two reasons—they need
@@ -50,21 +87,27 @@ export {buildMenuItems, buildKeymap, buildInputRules}
 //     Can be used to override the menu content.
 export function exampleSetup(options) {
   let plugins = [
+    mentionPlugin,
     buildInputRules(options.schema),
     keymap(buildKeymap(options.schema, options.mapKeys)),
     keymap(baseKeymap),
     dropCursor(),
-    gapCursor()
-  ]
+    gapCursor(),
+  ];
   if (options.menuBar !== false)
-    plugins.push(menuBar({floating: options.floatingMenu !== false,
-                          content: options.menuContent || buildMenuItems(options.schema).fullMenu}))
-  if (options.history !== false)
-    plugins.push(history())
+    plugins.push(
+      menuBar({
+        floating: options.floatingMenu !== false,
+        content: options.menuContent || buildMenuItems(options.schema).fullMenu,
+      })
+    );
+  if (options.history !== false) plugins.push(history());
 
-  return plugins.concat(new Plugin({
-    props: {
-      attributes: {class: "ProseMirror-example-setup-style"}
-    }
-  }))
+  return plugins.concat(
+    new Plugin({
+      props: {
+        attributes: { class: 'ProseMirror-example-setup-style' },
+      },
+    })
+  );
 }

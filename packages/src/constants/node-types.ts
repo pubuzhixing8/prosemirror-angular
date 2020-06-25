@@ -13,5 +13,6 @@ export enum InlineTypes {
 }
 
 export enum BlockTypes {
-    horizontal_rule = 'horizontal_rule'
+    horizontal_rule = 'horizontal_rule',
+    todo_item = 'todo_item'
 }

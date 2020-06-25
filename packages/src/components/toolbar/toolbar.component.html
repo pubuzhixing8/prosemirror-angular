@@ -20,7 +20,9 @@
   class="nav-icon"
   (mousedown)="mousedown($event, MarkTypes.code)"
 >
-  <svg style="width: 0.875em;"><use xlink:href="http://localhost:8200/#pm-icon--1d0983fe"></use></svg>
+  <svg style="width: 0.875em;">
+    <use xlink:href="http://localhost:8200/#pm-icon--1d0983fe"></use>
+  </svg>
 </i>
 <i
   nz-icon
@@ -36,4 +38,11 @@
   [nzTheme]="'outline'"
   class="nav-icon"
   (mousedown)="mousedownHr($event)"
+></i>
+<i
+  nz-icon
+  nzType="check-square"
+  nzTheme="outline"
+  class="nav-icon"
+  (mousedown)="mousedownTodo($event)"
 ></i>

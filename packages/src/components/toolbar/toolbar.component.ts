@@ -3,6 +3,8 @@ import { toggleMark } from "prosemirror-commands"
 import { MarkTypes, InlineTypes, BlockTypes } from '../../constants/node-types';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { PmLinkEdit } from '../link/link-edit.component';
+import { liftListItem } from 'prosemirror-schema-list';
+import {wrapInList} from "prosemirror-schema-list"
 
 @Component({
   selector: 'pm-toolbar',
@@ -32,6 +34,15 @@ export class PmToolbar {
 
       this.openLinkEdit();
     }
+  }
+
+  mousedownTodo(event: MouseEvent) {
+    event.preventDefault();
+    const state = (window as any).view.state;
+    const todo_list = state.config.schema.nodes.todo_list
+    // const cmd = liftListItem(todo_item);
+    const cmd = wrapInList(todo_list);
+    cmd(state, (window as any).view.dispatch);
   }
 
   mousedownHr(event: MouseEvent) {

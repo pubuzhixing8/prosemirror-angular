@@ -3,6 +3,8 @@
 @import "prosemirror-menu/style/menu.css";
 @import 'ng-zorro-antd/ng-zorro-antd.min.css';
 @import '../components/toolbar/toolbar.component.scss';
+@import '../plugins/mention/style.scss';
+@import '../plugins/todo/style.scss';
 
 .ProseMirror-example-setup-style hr {
   padding: 2px 10px;
